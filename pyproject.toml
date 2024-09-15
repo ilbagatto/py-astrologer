@@ -1,0 +1,35 @@
+[project]
+name = "astrologer"
+description = "Calculations for traditional Western astrology"
+version = "0.0.1"
+requires-python = ">= 3.12"
+authors = [{ name="ilbagatto", email="sergei.krushinski@gmail.com" }]
+dependencies = [
+  "astropc@git+https://github.com/ilbagatto/py-astropc.git"
+]
+classifiers = [
+  "Development Status :: 1 - Beta",
+  "Programming Language :: Python"
+]
+readme = "README.md"
+license = {text = "MIT License"}
+keywords = ["astrology", "horoscope", "birth chart"]
+
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
+[project.optional-dependencies]
+dev = [
+    "pytest",
+    "pytest-mock",
+    "pre-commit",
+    "mypy",
+    "isort",
+    "black",
+    "flake8",
+    "pdoc3",
+]
+
+[tool.isort]
+profile = "black"

@@ -1,6 +1,15 @@
 # Astrologer
 
-Library of core routines for practical astronomy aimed at astrological software and services.
+- [Astrologer](#astrologer)
+  - [Features](#features)
+  - [Installation](#installation)
+    - [Virtual environment](#virtual-environment)
+    - [Install the package](#install-the-package)
+  - [Usage](#usage)
+  - [Unit tests](#unit-tests)
+
+
+Calculations for traditional Western astrology.
 
 ## Features
 
@@ -8,7 +17,7 @@ Library of core routines for practical astronomy aimed at astrological software 
 * Astrological houses using a wide range of systems.
 * Sensitive points.
 * Aspects and stelliums.
-* Builds a range of charts.
+* A wide range of charts [TBD]. 
 
 
 ## Installation

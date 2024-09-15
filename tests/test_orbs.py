@@ -1,8 +1,14 @@
+from astropc.planets import EclipticPosition
 from pytest import fixture, mark
 
-from astrologer.aspects import Aspect, AspectInfo, ClassicWithAspectRatio, Dariot, DeVore
+from astrologer.aspects import (
+    Aspect,
+    AspectInfo,
+    ClassicWithAspectRatio,
+    Dariot,
+    DeVore,
+)
 from astrologer.objects import ChartObjectInfo, ChartObjectType
-from astropc.planets import EclipticPosition
 
 
 @fixture()

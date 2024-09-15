@@ -21,8 +21,9 @@ from enum import StrEnum
 from math import acos, asin, atan2, cos, degrees, fabs, pi, sin, tan
 from typing import Iterator
 
-from astrologer.points import ascendant, midheaven
 from astropc.mathutils import reduce_deg, reduce_rad, shortest_arc_rad
+
+from astrologer.points import ascendant, midheaven
 
 _HALF_SECOND = 0.5 / 3600
 _R30 = 0.5235987755982988

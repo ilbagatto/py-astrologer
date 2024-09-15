@@ -1,5 +1,6 @@
 from math import degrees, radians
-from pytest import fixture, approx
+
+from pytest import approx, fixture
 
 from astrologer.points import ascendant, eastspoint, midheaven, vertex
 

@@ -28,7 +28,7 @@ repos:
     hooks:
     - id: mypy
       exclude: 'tests/'
-      args: [--strict, --ignore-missing-imports]
+      args: [--strict, --ignore-missing-imports, --no-warn-return-any]
       # additional_dependencies: [tokenize-rt==3.2.0]
 
 # flake8: pinned version required since flake8 doesn't have 'stable' or other generic tag in their repo

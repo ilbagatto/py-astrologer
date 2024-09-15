@@ -4,9 +4,7 @@ from dataclasses import dataclass
 from enum import Enum, Flag, auto
 from typing import Any
 
-
 from astrologer.categories import Influence
-
 
 __author__ = "ilbagatto"
 __license__ = "MIT"

@@ -1,5 +1,7 @@
 from math import degrees, radians
-from pytest import fixture, approx, mark, raises
+
+from pytest import approx, fixture, mark, raises
+
 from astrologer.houses import (
     HousesSystem,
     campanus_cusps,

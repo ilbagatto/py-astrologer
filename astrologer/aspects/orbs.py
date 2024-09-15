@@ -13,9 +13,10 @@ __version__ = "0.0.1"
 from abc import ABC, abstractmethod
 from math import fabs
 
+from astropc.mathutils import shortest_arc_deg
+
 from astrologer.categories import ChartObjectType
 from astrologer.objects import ChartObjectInfo
-from astropc.mathutils import shortest_arc_deg
 
 from .aspects import Aspect, AspectInfo, AspectType
 

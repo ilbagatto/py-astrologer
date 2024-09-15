@@ -2,14 +2,12 @@ from abc import ABC, abstractmethod
 from dataclasses import dataclass
 from enum import Enum, auto, unique
 
-
 from astrologer.points import SensitivePoint
 
 from .aspects import AspectInfo, AspectType, ClassicWithAspectRatio, OrbsMethod
 from .categories import ChartObjectType
-from .objects import ChartObjectInfo
-
 from .houses import HousesSystem
+from .objects import ChartObjectInfo
 
 __author__ = "ilbagatto"
 __license__ = "MIT"

@@ -1,9 +1,9 @@
+from astropc.planets import EclipticPosition
 from pytest import fixture
-from astrologer.aspects import Aspect, find_closest_aspect
-from astrologer.aspects import iter_stelliums
+
+from astrologer.aspects import Aspect, find_closest_aspect, iter_stelliums
 from astrologer.categories import ChartObjectType
 from astrologer.objects import ChartObjectInfo
-from astropc.planets import EclipticPosition
 
 
 def test_find_closest_aspect():

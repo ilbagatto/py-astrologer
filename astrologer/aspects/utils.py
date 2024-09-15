@@ -2,10 +2,11 @@ import collections
 from operator import attrgetter
 from typing import Iterable
 
+from astropc.mathutils import diff_angle, shortest_arc_deg
+
 from astrologer.aspects.aspects import Aspect, AspectInfo, AspectType
 from astrologer.aspects.orbs import ClassicWithAspectRatio, OrbsMethod
 from astrologer.objects import ChartObjectInfo
-from astropc.mathutils import diff_angle, shortest_arc_deg
 
 
 def find_closest_aspect(

@@ -6,8 +6,9 @@ __version__ = "0.0.1"
 
 from dataclasses import dataclass
 
-from .categories import ChartObjectType
 from astropc.planets.planet import EclipticPosition
+
+from .categories import ChartObjectType
 
 
 @dataclass

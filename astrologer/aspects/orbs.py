@@ -15,8 +15,7 @@ from math import fabs
 
 from astropc.mathutils import shortest_arc_deg
 
-from astrologer.categories import ChartObjectType
-from astrologer.objects import ChartObjectInfo
+from astrologer.objects import ChartObjectInfo, ChartObjectType
 
 from .aspects import Aspect, AspectInfo, AspectType
 

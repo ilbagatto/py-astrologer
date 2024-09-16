@@ -7,17 +7,14 @@ __author__ = "ilbagatto"
 __license__ = "MIT"
 __version__ = "0.0.1"
 
-from enum import StrEnum
+from collections import namedtuple
 from math import atan2, cos, pi, sin, tan
 
 from astropc.mathutils import reduce_rad
 
 
-class SensitivePoint(StrEnum):
-    ASCENDANT = "Ascendant"
-    MIDHEAVEN = "Midheaven"
-    EASTPOINT = "EastPoint"
-    VERTEX = "Vertex"
+SensitivePoints = namedtuple("SensitivePoints", "asc mc vertex eastpoint")
+
 
 
 _R90 = 1.5707963267948966  # 90 deg in radians
@@ -77,7 +74,7 @@ def vertex(ramc: float, eps: float, theta: float) -> float:
     return ascendant(ramc + pi, eps, _R90 - theta)
 
 
-def eastspoint(ramc: float, eps: float) -> float:
+def eastpoint(ramc: float, eps: float) -> float:
     """East Point.
 
     East Point (aka Equatorial Ascendant)  is the sign and degree rising over

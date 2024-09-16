@@ -2,7 +2,7 @@ from math import degrees, radians
 
 from pytest import approx, fixture
 
-from astrologer.points import ascendant, eastspoint, midheaven, vertex
+from astrologer.points import ascendant, eastpoint, midheaven, vertex
 
 
 @fixture()
@@ -36,5 +36,5 @@ def test_vertex(ramc, eps, theta):
 
 
 def test_eastpoint(ramc, eps):
-    got = degrees(eastspoint(ramc, eps))
+    got = degrees(eastpoint(ramc, eps))
     assert approx(got, abs=1e-4) == 76.70363

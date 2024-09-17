@@ -1,7 +1,7 @@
 [project]
 name = "astrologer"
 description = "Calculations for traditional Western astrology"
-version = "0.0.1"
+version = "0.1.0"
 requires-python = ">= 3.12"
 authors = [{ name="ilbagatto", email="sergei.krushinski@gmail.com" }]
 dependencies = [

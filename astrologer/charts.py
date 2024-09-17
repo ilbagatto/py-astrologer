@@ -296,11 +296,11 @@ class Radix(BaseChart):
             ObjectsDict: chart objects.
         """
         if self._objects is None:
-            self._objects: ObjectsDict = {}  # type: ignore[no-redef, assignment]
+            self._objects: ObjectsDict = {}
             for obj in self._calculate_objects():
-                self._objects[obj.type] = obj  # type: ignore[index]
+                self._objects[obj.type] = obj
 
-        return self._objects  # type: ignore[return-value]
+        return self._objects
 
     @property
     def aspects(self) -> AspectsTable:
@@ -309,8 +309,8 @@ class Radix(BaseChart):
             dict[ChartObjectType, dict[ChartObjectType, AspectInfo]]: aspects.
         """
         if self._aspects is None:
-            self._aspects = self._calculate_aspects()  # type: ignore[assignment]
-        return self._aspects  # type: ignore[return-value]
+            self._aspects = self._calculate_aspects()
+        return self._aspects
 
     @property
     def houses(self) -> tuple[float, ...]:
@@ -319,10 +319,10 @@ class Radix(BaseChart):
             tuple[float, ...]: houses cusps, arc-degrees.
         """
         if self._houses is None:
-            self._houses = self._calculate_houses()  # type: ignore[assignment]
-        return self._houses  # type: ignore[return-value]
+            self._houses = self._calculate_houses()
+        return self._houses
 
-    @property  # type: ignore[no-redef]
+    @property
     def settings(self) -> Settings:
         """
         Returns:
@@ -341,10 +341,10 @@ class Radix(BaseChart):
             ramc = radians(self.sidereal_time * 15)
             eps = radians(self.sphera.obliquity)
             theta = radians(self.place.latitude)
-            self._points = SensitivePoints(  # type: ignore[assignment]
+            self._points = SensitivePoints(
                 asc=degrees(ascendant(ramc, eps, theta)),
                 mc=degrees(midheaven(ramc, eps)),
                 vertex=degrees(vertex(ramc, eps, theta)),
                 eastpoint=degrees(eastpoint(ramc, eps)),
             )
-        return self._points  # type: ignore[return-value]
+        return self._points

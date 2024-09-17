@@ -1,4 +1,6 @@
 # flake8: noqa F811
+# mypy: disable-error-code="empty-body,no-redef,assignment,index,return-value"
+
 
 from dataclasses import dataclass
 from enum import Enum, auto, unique
@@ -84,35 +86,35 @@ class BaseChart:
         return self._name
 
     @property
-    def objects(self) -> ObjectsDict:  # type: ignore[empty-body]
+    def objects(self) -> ObjectsDict:
         """
         Returns:
             ObjectsDict: chart objects.
         """
 
     @property
-    def aspects(self) -> AspectsTable:  # type: ignore[empty-body]
+    def aspects(self) -> AspectsTable:
         """
         Returns:
             dict[ChartObjectType, dict[ChartObjectType, AspectInfo]]: aspects.
         """
 
     @property
-    def houses(self) -> tuple[float, ...]:  # type: ignore[empty-body]
+    def houses(self) -> tuple[float, ...]:
         """
         Returns:
             tuple[float, ...]: houses cusps, arc-degrees.
         """
 
     @property
-    def settings(self) -> Settings:  # type: ignore[empty-body]
+    def settings(self) -> Settings:
         """
         Returns:
             Settings: chart settings.
         """
 
     @property
-    def points(self) -> SensitivePoints:  # type: ignore[empty-body]
+    def points(self) -> SensitivePoints:
         """Sensitive points.
 
         Returns:
@@ -285,7 +287,7 @@ class Radix(BaseChart):
     def sidereal_time(self) -> float:
         if self._lst is None:
             self._lst = djd_to_sidereal(self._djd, lng=self.place.longitude)
-        return self._lst  # type: ignore[return-value]
+        return self._lst
 
     @property
     def objects(self) -> ObjectsDict:

@@ -1,20 +1,19 @@
+# flake8: noqa F811
+
 from dataclasses import dataclass
 from enum import Enum, auto, unique
 from math import degrees, radians
 from typing import Iterable
 
-from astropc.planets import CelestialSphera, Planet, EclipticPosition
 from astropc.mathutils import diff_angle
-from astropc.timeutils import djd_to_sidereal
-from astropc.moon import apparent as apparent_moon, lunar_node
+from astropc.moon import apparent as apparent_moon
+from astropc.moon import lunar_node
+from astropc.planets import CelestialSphera, EclipticPosition, Planet
 from astropc.sun import apparent as apparent_sun
-from .points import (
-    SensitivePoints,
-    ascendant,
-    eastpoint,
-    midheaven,
-    vertex,
-)
+from astropc.timeutils import djd_to_sidereal
+
+from astrologer.aspects.utils import find_closest_aspect
+
 from .aspects import AspectInfo, AspectType, ClassicWithAspectRatio, OrbsMethod
 from .houses import (
     HousesSystem,
@@ -25,11 +24,16 @@ from .houses import (
     quadrant_cusps,
     signcusp_cusps,
 )
-from .objects import PLANET_TO_OBJECT, ChartObjectType, ChartObjectInfo
+from .objects import PLANET_TO_OBJECT, ChartObjectInfo, ChartObjectType
+from .points import SensitivePoints, ascendant, eastpoint, midheaven, vertex
 
 __author__ = "ilbagatto"
 __license__ = "MIT"
 __version__ = "0.0.1"
+
+
+AspectsTable = dict[ChartObjectType, dict[ChartObjectType, AspectInfo]]
+ObjectsDict = dict[ChartObjectType, ChartObjectInfo]
 
 
 @unique
@@ -49,7 +53,7 @@ class ChartType(Enum):
 class Settings:
     houses: HousesSystem = HousesSystem.PLACIDUS
     orbs_method: OrbsMethod = ClassicWithAspectRatio()
-    aspect_types = AspectType.MAJOR | AspectType.MINOR
+    aspect_types = AspectType.MAJOR
     true_node: bool = True
 
 
@@ -80,40 +84,41 @@ class BaseChart:
         return self._name
 
     @property
-    def objects(self) -> dict[ChartObjectType, ChartObjectInfo]:
+    def objects(self) -> ObjectsDict:  # type: ignore[empty-body]
         """
         Returns:
-            dict[ChartObjectType, ChartObjectInfo]: chart objects.
+            ObjectsDict: chart objects.
         """
 
     @property
-    def aspects(self) -> dict[ChartObjectType, AspectInfo]:
+    def aspects(self) -> AspectsTable:  # type: ignore[empty-body]
         """
         Returns:
-            dict[ChartObjectType, AspectInfo]: aspects.
+            dict[ChartObjectType, dict[ChartObjectType, AspectInfo]]: aspects.
         """
 
     @property
-    def houses(self) -> tuple[float, ...]:
+    def houses(self) -> tuple[float, ...]:  # type: ignore[empty-body]
         """
         Returns:
             tuple[float, ...]: houses cusps, arc-degrees.
         """
 
     @property
-    def settings(self) -> Settings:
+    def settings(self) -> Settings:  # type: ignore[empty-body]
         """
         Returns:
             Settings: chart settings.
         """
 
     @property
-    def points(self) -> SensitivePoints:
+    def points(self) -> SensitivePoints:  # type: ignore[empty-body]
         """Sensitive points.
 
         Returns:
             SensitivePoints: longitudes of sensitive points in degrees.
         """
+
 
 @dataclass
 class Place:
@@ -139,7 +144,7 @@ class Radix(BaseChart):
         self._objects = None
         self._aspects = None
         self._houses = None
-        self._points: SensitivePoints = None
+        self._points = None
         self._sphera = None
         self._lst = None
 
@@ -216,7 +221,9 @@ class Radix(BaseChart):
             house=in_house(moo.lmbda, cusps),
         )
 
-        sun = apparent_sun(self._djd, dpsi=sphera.nutation.dpsi, ignore_light_travel=False)
+        sun = apparent_sun(
+            self._djd, dpsi=sphera.nutation.dpsi, ignore_light_travel=False
+        )
         next_sun = apparent_sun(
             next_djd, dpsi=next_sphera.nutation.dpsi, ignore_light_travel=False
         )
@@ -247,6 +254,27 @@ class Radix(BaseChart):
             house=in_house(node, cusps),
         )
 
+    def _calculate_aspects(
+        self,
+    ) -> dict[ChartObjectType, dict[ChartObjectType, AspectInfo]]:
+        aspects: dict[ChartObjectType, dict[ChartObjectType, AspectInfo]] = {}
+        method = self.settings.orbs_method
+        flags = self.settings.aspect_types
+        objs = self.objects
+        keys = list(self.objects.keys())
+        sz = len(keys)
+        for i in range(0, sz - 1):
+            src = objs[keys[i]]
+            for j in range(i + 1, sz):
+                dst = objs[keys[j]]
+                asp = find_closest_aspect(
+                    src, dst, orbs_method=method, type_flags=flags.value
+                )
+                if asp is not None:
+                    aspects.setdefault(src.type, {})[dst.type] = asp
+                    aspects.setdefault(dst.type, {})[src.type] = asp
+        return aspects
+
     @property
     def sphera(self) -> CelestialSphera:
         if self._sphera is None:
@@ -257,27 +285,30 @@ class Radix(BaseChart):
     def sidereal_time(self) -> float:
         if self._lst is None:
             self._lst = djd_to_sidereal(self._djd, lng=self.place.longitude)
-        return self._lst
+        return self._lst  # type: ignore[return-value]
 
     @property
-    def objects(self) -> dict[ChartObjectType, ChartObjectInfo]:
+    def objects(self) -> ObjectsDict:
         """
         Returns:
-            dict[ChartObjectType, ChartObjectInfo]: chart objects.
+            ObjectsDict: chart objects.
         """
         if self._objects is None:
-            self._objects = {}
+            self._objects: ObjectsDict = {}  # type: ignore[no-redef, assignment]
             for obj in self._calculate_objects():
-                self._objects[obj.type] = obj
+                self._objects[obj.type] = obj  # type: ignore[index]
 
-        return self._objects
+        return self._objects  # type: ignore[return-value]
 
-    # @property
-    # def aspects(self) -> dict[ChartObjectType, AspectInfo]:
-    #     """
-    #     Returns:
-    #         dict[ChartObjectType, AspectInfo]: aspects.
-    #     """
+    @property
+    def aspects(self) -> AspectsTable:
+        """
+        Returns:
+            dict[ChartObjectType, dict[ChartObjectType, AspectInfo]]: aspects.
+        """
+        if self._aspects is None:
+            self._aspects = self._calculate_aspects()  # type: ignore[assignment]
+        return self._aspects  # type: ignore[return-value]
 
     @property
     def houses(self) -> tuple[float, ...]:
@@ -286,15 +317,16 @@ class Radix(BaseChart):
             tuple[float, ...]: houses cusps, arc-degrees.
         """
         if self._houses is None:
-            self._houses = self._calculate_houses()
-        return self._houses
+            self._houses = self._calculate_houses()  # type: ignore[assignment]
+        return self._houses  # type: ignore[return-value]
 
-    # @property
-    # def settings(self) -> Settings:
-    #     """
-    #     Returns:
-    #         Settings: chart settings.
-    #     """
+    @property  # type: ignore[no-redef]
+    def settings(self) -> Settings:
+        """
+        Returns:
+            Settings: chart settings.
+        """
+        return self._settings
 
     @property
     def points(self) -> SensitivePoints:
@@ -307,10 +339,10 @@ class Radix(BaseChart):
             ramc = radians(self.sidereal_time * 15)
             eps = radians(self.sphera.obliquity)
             theta = radians(self.place.latitude)
-            self._points = SensitivePoints(
+            self._points = SensitivePoints(  # type: ignore[assignment]
                 asc=degrees(ascendant(ramc, eps, theta)),
                 mc=degrees(midheaven(ramc, eps)),
                 vertex=degrees(vertex(ramc, eps, theta)),
                 eastpoint=degrees(eastpoint(ramc, eps)),
             )
-        return self._points
+        return self._points  # type: ignore[return-value]

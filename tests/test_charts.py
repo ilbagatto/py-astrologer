@@ -1,6 +1,7 @@
 from pytest import approx, fixture, mark
+
 from astrologer import objects
-from astrologer.charts import Radix, Place
+from astrologer.charts import Place, Radix
 
 
 @fixture()
@@ -61,4 +62,19 @@ class TestRadix:
         assert approx(got, abs=self.delta) == expected
 
     def test_sidereal_time(self, radix):
-        assert approx(radix.sidereal_time, abs=self.delta) == 23.03702536997929
+        assert approx(radix.sidereal_time, abs=self.delta) == 23.03702
+
+    def test_aspects_objects(self, radix):
+        aspects = radix.aspects
+        assert len(aspects) == 10
+
+    def test_aspects_symmetry(self, radix):
+        aspects = radix.aspects
+        assert (
+            aspects[objects.ChartObjectType.MOON][objects.ChartObjectType.JUPITER]
+            == aspects[objects.ChartObjectType.JUPITER][objects.ChartObjectType.MOON]
+        )
+
+    def test_no_aspects_to_self(self, radix):
+        moon_aspects = radix.aspects[objects.ChartObjectType.MOON]
+        assert moon_aspects.get(objects.ChartObjectType.MOON) is None

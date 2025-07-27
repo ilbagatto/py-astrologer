@@ -63,15 +63,16 @@ def placidus_cusps(*, ramc: float, eps: float, theta: float) -> Iterator[float]:
     tt = tan(theta) * tan(eps)
     cs_eps = cos(eps)
 
-    for i, f, x0 in _PLACIDUS_ARGS:
-        k, r = (-1, ramc) if i in (10, 11) else (1, ramc + pi)
+    for idx, f, x0 in _PLACIDUS_ARGS:
+        k, r = (-1, ramc) if idx in (10, 11) else (1, ramc + pi)
         last_x = x0 + ramc
         while True:
             x = r - k * (acos(k * sin(last_x) * tt)) / f
             if abs(shortest_arc_rad(x, last_x)) < _PLAC_DELTA:
                 break
             last_x = x
-        yield reduce_rad(atan2(sin(last_x), cs_eps * cos(last_x)))
+        cusp = reduce_rad(atan2(sin(last_x), cs_eps * cos(last_x)))
+        yield cusp
 
 
 def koch_cusps(*, ramc: float, eps: float, theta: float, mc: float) -> Iterator[float]:

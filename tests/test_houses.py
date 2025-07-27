@@ -78,7 +78,8 @@ def test_koch(cusp, expected, ramc, eps, theta, mc):
 )
 def test_placidus(cusp, expected, ramc, eps, theta):
     got = list(placidus_cusps(ramc=ramc, eps=eps, theta=theta))
-    assert approx(degrees(got[cusp]), rel=_DELTA) == expected
+    got_deg = degrees(got[cusp])
+    assert approx(got_deg, rel=_DELTA) == expected
 
 
 @mark.parametrize(

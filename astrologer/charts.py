@@ -3,7 +3,7 @@
 
 
 from dataclasses import dataclass
-from enum import Enum, auto, unique
+from enum import Enum, StrEnum, auto, unique
 from math import degrees, radians
 from typing import Iterable
 
@@ -49,6 +49,13 @@ class ChartType(Enum):
     SYNASTRY = auto()
     COMPOSITE = auto()
     RELATIONSHIP = auto()
+
+@unique
+class DirectionsType(StrEnum):
+    PRIMARY = "primary"
+    SECONDARY = "secondary"
+    SOLARARC = "solararc"
+    SYMBOLIC = "symbolic"
 
 
 @dataclass

@@ -47,8 +47,7 @@ class ChartType(Enum):
     LUNAR_RETURN = auto()
     RELOCATION = auto()
     SYNASTRY = auto()
-    COMPOSITE = auto()
-    RELATIONSHIP = auto()
+
 
 @unique
 class DirectionsMethod(StrEnum):
@@ -57,6 +56,11 @@ class DirectionsMethod(StrEnum):
     SOLARARC = "solararc"
     SYMBOLIC = "symbolic"
 
+@unique
+class SynastryMethod(StrEnum):
+    OVERLAY = "overlay"
+    COMPOSITE = "composite"
+    RELATIONSHIP = "relationship"
 
 @dataclass
 class Settings:

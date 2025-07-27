@@ -51,7 +51,7 @@ class ChartType(Enum):
     RELATIONSHIP = auto()
 
 @unique
-class DirectionsType(StrEnum):
+class DirectionsMethod(StrEnum):
     PRIMARY = "primary"
     SECONDARY = "secondary"
     SOLARARC = "solararc"

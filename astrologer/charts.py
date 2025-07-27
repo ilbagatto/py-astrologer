@@ -39,14 +39,14 @@ ObjectsDict = dict[ChartObjectType, ChartObjectInfo]
 
 
 @unique
-class ChartType(Enum):
-    RADIX = auto()
-    TRANSITS = auto()
-    DIRECTIONS = auto()
-    SOLAR_RETURN = auto()
-    LUNAR_RETURN = auto()
-    RELOCATION = auto()
-    SYNASTRY = auto()
+class ChartType(StrEnum):
+    RADIX = "radix"
+    TRANSITS = "transits"
+    DIRECTIONS = "directions"
+    SOLAR_RETURN = "solar_return"
+    LUNAR_RETURN = "lunar_return"
+    RELOCATION = "relocation"
+    SYNASTRY = "synastry"
 
 
 @unique
